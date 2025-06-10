@@ -1,0 +1,34 @@
+<div class="booking-container">
+  <div class="photo"></div>
+  <div class="booking-info">
+    <div class="type-and-button">
+      <span class="booking-type">
+        {{ booking.workspaceType }} for
+        {{ booking.room.capacityPerPerson }} people
+      </span>
+      <div class="booking-buttons">
+        <mat-icon class="edit-icon" svgIcon="edit"></mat-icon>
+        <mat-icon
+          class="delete-icon"
+          svgIcon="delete"
+          (click)="handleOpenDeleleteModel()"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="booking-datetime">
+      <div class="booking-date">
+        <mat-icon class="my-icon" svgIcon="date"></mat-icon>
+        <span>{{ formatDateRange(booking.from, booking.to) }}</span>
+      </div>
+      <div class="booking-date">
+        <mat-icon class="my-icon" svgIcon="time"></mat-icon>
+        <span>{{ formatTimeRange(booking.from, booking.to) }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<app-delete-booking
+  *ngIf="isDeleteModalOpened"
+  [id]="this.booking.id"
+  (onSearchClose)="handleCloseDeleteModal()"
+></app-delete-booking>

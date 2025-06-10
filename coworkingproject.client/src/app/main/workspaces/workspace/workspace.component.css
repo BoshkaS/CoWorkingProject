@@ -1,0 +1,124 @@
+.workspace-container {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  padding: 16px;
+  border-radius: 20px;
+  gap: 32px;
+}
+
+.photo {
+  width: 340px;
+  height: 303px;
+}
+
+.workspace-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 12px 0 12px 0;
+  gap: 32px;
+}
+
+.type-and-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.workspace-type {
+  font-size: 32px;
+  margin: 0;
+  font-weight: 600;
+  color: #2d2d2d;
+  line-height: 120%;
+}
+
+.book-workspace {
+  background-color: #5c5af3;
+  color: white;
+  width: 180px;
+  height: 48px;
+  border-radius: 8px;
+  border: none;
+
+  font-size: 16px;
+  margin: 0;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.workspace-descr {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+  color: #6b6b6b;
+  line-height: 24px;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.amenities,
+.capacities {
+  flex: 1;
+}
+
+.details-text {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 600;
+  color: #2d2d2d;
+  line-height: 120%;
+  padding-bottom: 10px;
+}
+
+.amenity-item,
+.capacity-item {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.my-icon {
+  padding: 10px;
+  background-color: #f5f3fb;
+  border-radius: 12px;
+}
+
+.capacity-text {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 500;
+  color: #2d2d2d;
+  line-height: 120%;
+}
+
+.availability-text {
+  margin: 0 0 13px 0;
+}
+
+.bold-text {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%; /* equals 1.2 */
+  margin-bottom: 13px; /* paragraph spacing */
+  letter-spacing: 0;
+  display: inline; /* default span */
+}
+
+.normal-text {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+  margin-bottom: 13px;
+  letter-spacing: 0;
+  display: inline;
+}

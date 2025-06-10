@@ -2,6 +2,8 @@
 using CoWorkingProject.Server.DTOs;
 using CoWorkingProject.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace CoWorkingProject.Server.Services;
 
@@ -14,7 +16,7 @@ public class WorkspaceService : IWorkspaceService
         this.context = context;
     }
 
-    public async Task<IEnumerable<WorkspaceDto>> GetWorkspacesAsync()
+    public async Task<IEnumerable<WorkspaceDto>> GetAllAsync()
     {
         var workspaces = await this.context.Workspaces
             .Include(w => w.Amenities)
@@ -26,10 +28,10 @@ public class WorkspaceService : IWorkspaceService
         var displayList = workspaces.Select(w => new WorkspaceDto
         {
             WorkspaceId = w.Id,
-            WorkspaceType = w.Type,
+            WorkspaceType = EnumService.GetEnumMemberValue(w.Type),
             Description = w.Description,
-            Amenities = w.Amenities.Select(a => a.Amenity?.Name ?? string.Empty).ToList(),
-            Rooms = w.Rooms.Select(r => new RoomDto
+            Amenities = w.Amenities.OrderBy(a => a.Amenity?.Name).Select(a => a.Amenity?.Name ?? string.Empty).ToList(),
+            Rooms = w.Rooms.OrderBy(r => r.CapacityPerPerson).Select(r => new RoomDto
             {
                 CapacityPerPerson = r.CapacityPerPerson,
                 RoomCount = r.RoomCount,
@@ -38,4 +40,6 @@ public class WorkspaceService : IWorkspaceService
 
         return displayList;
     }
+
+	
 }

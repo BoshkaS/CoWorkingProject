@@ -1,0 +1,72 @@
+.booking-container {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 20px;
+  padding: 16px;
+  gap: 32px;
+}
+
+.photo {
+  width: 280px;
+  height: 192px;
+}
+
+.booking-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+}
+
+.type-and-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 12px 0 12px 0;
+}
+
+.booking-type {
+  font-size: 32px;
+  line-height: 120%;
+  font-weight: 700;
+}
+
+.booking-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-icon {
+  height: 17px;
+  width: 17px;
+  border-radius: 8px;
+  border: solid 1px #c2bcd8;
+  padding: 10px;
+}
+
+.delete-icon {
+  height: 17px;
+  width: 17px;
+  border-radius: 8px;
+  border: solid 1px #f56e6e;
+  padding: 10px;
+}
+
+.booking-datetime {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.booking-date {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.my-icon {
+  padding: 10px;
+  background-color: #f5f3fb;
+  border-radius: 12px;
+}

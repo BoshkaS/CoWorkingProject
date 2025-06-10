@@ -6,7 +6,7 @@ public class WorkspaceDto
 {
 	public Guid WorkspaceId { get; set; }
 
-	public WorkspaceType WorkspaceType { get; set; }
+	public string WorkspaceType { get; set; }
 
 	public string Description { get; set; }
 

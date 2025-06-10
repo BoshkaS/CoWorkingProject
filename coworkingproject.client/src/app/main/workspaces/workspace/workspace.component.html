@@ -1,0 +1,52 @@
+<div class="workspace-container">
+  <div class="photo"></div>
+  <div class="workspace-info">
+    <div class="type-and-button">
+      <div>
+        <p class="workspace-type">
+          {{ workspace.workspaceType }}
+        </p>
+        <p class="workspace-descr">{{ workspace.description }}</p>
+      </div>
+      <button class="book-workspace" (click)="navigateToAddbooking()">Book now</button>
+    </div>
+
+    <div class="options">
+      <div class="amenities">
+        <p class="details-text">Amenities</p>
+        <div class="amenity-item">
+          <mat-icon
+            *ngFor="let amenity of workspace.amenities"
+            class="my-icon"
+            [svgIcon]="mapAmenityToIcon(amenity)"
+          ></mat-icon>
+        </div>
+      </div>
+      <div class="capacities" *ngIf="workspace.workspaceType !== 'Open space'">
+        <p class="details-text">Capacity option</p>
+        <div class="capacity-item">
+          <mat-icon class="my-icon" svgIcon="user"></mat-icon>
+          <p class="capacity-text">{{ capacityPerPersonText }}</p>
+        </div>
+      </div>
+      <div class="capacities" *ngIf="workspace.workspaceType == 'Open space'">
+        <p class="details-text">Availability</p>
+        <div class="capacity-item">
+          <mat-icon class="my-icon" svgIcon="armchair"></mat-icon>
+          <p class="capacity-text">{{ capacityPerPersonText }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="availability" *ngIf="workspace.workspaceType !== 'Open space'">
+      <p class="details-text">Availability</p>
+      <p class="availability-text" *ngFor="let room of workspace.rooms">
+        <span class="bold-text">{{ room.roomCount }} rooms</span>
+        <span class="normal-text">
+          for<span *ngIf="room.capacityPerPerson !== 1"> up</span>
+          {{ room.capacityPerPerson }}
+          {{ room.capacityPerPerson === 1 ? "person" : "people" }}
+        </span>
+      </p>
+    </div>
+  </div>
+</div>

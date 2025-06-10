@@ -6,13 +6,21 @@ using CoWorkingProject.Server.Data;
 using CoWorkingProject.Server.Services;
 using CoWorkingProject.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
-// Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+	.AddJsonOptions(options =>
+	{
+		options.JsonSerializerOptions.Converters.Add(
+			new JsonStringEnumConverter());
+	});
+
 
 builder.Services.AddDbContext<CoWorkingContext>(
 	opt =>
@@ -20,11 +28,23 @@ builder.Services.AddDbContext<CoWorkingContext>(
         _ = opt.UseNpgsql(builder.Configuration.GetConnectionString("CoWorkingDbContext"));
 	}, ServiceLifetime.Transient);
 
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("localhost:6732", policy =>
+	{
+		policy.WithOrigins("https://localhost:6732")
+			  .AllowAnyHeader()
+			  .AllowAnyMethod();
+	});
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors("localhost:6732");
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
