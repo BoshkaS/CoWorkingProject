@@ -1,13 +1,17 @@
-<ng-container *ngIf="bookings$ | async as bookings; else noBookings">
-  <div class="container-of-bookings" *ngIf="bookings.length > 0">
-    <b class="text-in-bookings">My bookings on Coworking</b>
-    <app-my-booking *ngFor="let booking of bookings" [booking]="booking">
-    </app-my-booking>
-  </div>
-  <ng-container *ngIf="bookings.length === 0">
-    <ng-container *ngTemplateOutlet="noBookings"></ng-container>
+<ng-container *ngIf="bookings$ | async as bookings; else loading">
+  <ng-container *ngIf="bookings.length > 0; else noBookings">
+    <div class="container-of-bookings">
+      <b class="text-in-bookings">My bookings on Coworking</b>
+      <app-my-booking *ngFor="let booking of bookings" [booking]="booking">
+      </app-my-booking>
+    </div>
   </ng-container>
 </ng-container>
+<ng-template #loading>
+  <div class="loading-container">
+    <span class="loading-text">Loading your bookings...</span>
+  </div>
+</ng-template>
 <ng-template #noBookings>
   <div class="no-bookings">
     <b class="text-in-bookings">My bookings</b>

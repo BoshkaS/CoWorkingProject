@@ -89,5 +89,18 @@ export class IconService {
       'x',
       this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/x.svg')
     );
+
+    this.iconRegistry.addSvgIcon(
+      'confirm',
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/confirm-booking.svg'
+      )
+    );
+    this.iconRegistry.addSvgIcon(
+      'deny',
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/deny-booking.svg'
+      )
+    );
   }
 }

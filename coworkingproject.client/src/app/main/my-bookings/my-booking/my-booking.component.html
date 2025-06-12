@@ -1,5 +1,11 @@
 <div class="booking-container">
-  <div class="photo"></div>
+  <div class="photo">
+    <img
+      *ngIf="booking.imagePath"
+      [src]="booking.imagePath"
+      alt="Booking Image"
+    />
+  </div>
   <div class="booking-info">
     <div class="type-and-button">
       <span class="booking-type">
@@ -7,7 +13,11 @@
         {{ booking.room.capacityPerPerson }} people
       </span>
       <div class="booking-buttons">
-        <mat-icon class="edit-icon" svgIcon="edit"></mat-icon>
+        <mat-icon
+          class="edit-icon"
+          svgIcon="edit"
+          (click)="navigateToEditBooking()"
+        ></mat-icon>
         <mat-icon
           class="delete-icon"
           svgIcon="delete"

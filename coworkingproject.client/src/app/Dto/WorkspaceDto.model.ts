@@ -6,4 +6,5 @@ export interface WorkspaceDto {
   description: string;
   amenities: string[];
   rooms: RoomDto[];
+  imagePaths: string[];
 }

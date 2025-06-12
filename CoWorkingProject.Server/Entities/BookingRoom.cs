@@ -19,4 +19,6 @@ public class BookingRoom
     public DateTime From { get; set; }
 
     public DateTime To { get; set; }
+
+	public string? ImagePath { get; set; }
 }

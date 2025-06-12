@@ -6,10 +6,12 @@ namespace CoWorkingProject.Server.Services.Interfaces
 	{
 		Task<IEnumerable<BookingDto>> GetAllAsync();
 
-		Task<BookingDto> AddAsync(BookingDto model);
+		Task<BookingDto> AddAsync(BookingPostDto model);
 
-		Task<BookingDto?> UpdateAsync(Guid id, BookingDto model);
+		Task<BookingDto?> UpdateAsync(Guid id, BookingPostDto model);
 
 		Task<bool> DeleteAsync(Guid id);
+
+		Task<BookingDto> GetById(Guid id);
 	}
 }

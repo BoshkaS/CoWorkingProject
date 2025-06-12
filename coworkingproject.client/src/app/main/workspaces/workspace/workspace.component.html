@@ -1,5 +1,21 @@
 <div class="workspace-container">
-  <div class="photo"></div>
+  <div class="carousel-container">
+    <div class="main-photo">
+      <img [src]="workspace.imagePaths[selectedImageIndex]" alt="Main Image" />
+    </div>
+
+    <div class="thumbnail-container">
+      <div
+        class="thumbnail"
+        *ngFor="let img of workspace.imagePaths; let i = index"
+        [class.selected]="i === selectedImageIndex"
+        (click)="selectImage(i)"
+      >
+        <img [src]="img" alt="Thumbnail {{ i + 1 }}" />
+        <div class="overlay" *ngIf="i !== selectedImageIndex"></div>
+      </div>
+    </div>
+  </div>
   <div class="workspace-info">
     <div class="type-and-button">
       <div>
@@ -8,7 +24,9 @@
         </p>
         <p class="workspace-descr">{{ workspace.description }}</p>
       </div>
-      <button class="book-workspace" (click)="navigateToAddbooking()">Book now</button>
+      <button class="book-workspace" (click)="navigateToAddbooking()">
+        Book now
+      </button>
     </div>
 
     <div class="options">

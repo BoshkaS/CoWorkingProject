@@ -13,4 +13,6 @@ public class WorkspaceDto
 	public List<string> Amenities { get; set; } = new List<string>();
 
 	public List<RoomDto> Rooms { get; set; } = new List<RoomDto>();
+
+	public List<string> ImagePaths { get; set; } = new List<string>();
 }

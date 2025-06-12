@@ -21,4 +21,11 @@ public class WorkspaceController : ControllerBase
 		var result = await this.workspaceService.GetAllAsync();
 		return Ok(result);
 	}
+
+	[HttpGet("by-type/{workspaceType}")]
+	public async Task<IActionResult> GetRoomsByType(string workspaceType)
+	{
+		var rooms =  await workspaceService.GetRoomsByWorkspaceType(workspaceType);
+		return Ok(rooms);
+	}
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WorkspaceDto } from '../../Dto/WorkspaceDto.model';
-import { WorkspaceService } from './worspaces.service';
+import { WorkspaceService } from './workspaces.service';
 
 @Component({
   selector: 'app-workspaces',

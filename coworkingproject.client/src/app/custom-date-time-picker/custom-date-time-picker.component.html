@@ -1,0 +1,97 @@
+<div class="container">
+  <div>
+    <p class="label">Start Date</p>
+    <div class="date-row">
+      <select
+        [(ngModel)]="startDay"
+        class="dropdown"
+        (change)="emitDateTimeChange()"
+      >
+        <option value="" disabled selected hidden>Day</option>
+        <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+      </select>
+      <select
+        [(ngModel)]="startMonth"
+        class="dropdown"
+        (change)="emitDateTimeChange()"
+      >
+        <option value="" disabled selected hidden>Month</option>
+        <option *ngFor="let month of months" [value]="month">
+          {{ month }}
+        </option>
+      </select>
+      <select
+        [(ngModel)]="startYear"
+        class="dropdown"
+        (change)="emitDateTimeChange()"
+      >
+        <option value="" disabled selected hidden>Year</option>
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <p class="label">End Date</p>
+    <div class="date-row">
+      <select
+        [(ngModel)]="endDay"
+        class="dropdown"
+        (change)="emitDateTimeChange()"
+      >
+        <option value="" disabled selected hidden>Day</option>
+        <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+      </select>
+      <select
+        [(ngModel)]="endMonth"
+        class="dropdown"
+        (change)="emitDateTimeChange()"
+      >
+        <option value="" disabled selected hidden>Month</option>
+        <option *ngFor="let month of months" [value]="month">
+          {{ month }}
+        </option>
+      </select>
+      <select
+        [(ngModel)]="endYear"
+        class="dropdown"
+        (change)="emitDateTimeChange()"
+      >
+        <option value="" disabled selected hidden>Year</option>
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <p class="label">Start Time</p>
+    <div class="time-block">
+      <select
+        [(ngModel)]="selectedStartTime"
+        class="dropdown full"
+        (change)="emitDateTimeChange()"
+      >
+        <option value="" disabled selected hidden>Choose start time</option>
+        <option *ngFor="let time of timeSlots" [value]="time">
+          {{ time }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <p class="label">End Time</p>
+    <div class="time-block">
+      <select
+        [(ngModel)]="selectedEndTime"
+        class="dropdown full"
+        (change)="emitDateTimeChange()"
+      >
+        <option value="" disabled selected hidden>Choose end time</option>
+        <option *ngFor="let time of timeSlots" [value]="time">
+          {{ time }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>

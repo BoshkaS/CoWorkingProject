@@ -8,4 +8,5 @@ export interface BookingDto {
   from: string;
   to: string;
   workspaceType: string;
+  imagePath?: string;
 }

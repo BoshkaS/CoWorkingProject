@@ -1,0 +1,17 @@
+<div class="backdrop" (click)="closeHandler()">
+  <div class="modal" (click)="handleStopPropagation($event)">
+    <div class="modal-header">
+      <mat-icon class="deny-icon" svgIcon="deny"></mat-icon>
+      <mat-icon
+        class="close-icon"
+        svgIcon="x"
+        (click)="closeHandler()"
+      ></mat-icon>
+    </div>
+    <span class="text-header">Selected time is not available</span>
+    <span class="text-descr"> Please choose a different time slot </span>
+    <button class="submit-button" (click)="closeHandler()">
+      Check availability
+    </button>
+  </div>
+</div>

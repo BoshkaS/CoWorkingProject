@@ -5,11 +5,25 @@
   border-radius: 20px;
   padding: 16px;
   gap: 32px;
+  align-items: center;
 }
 
 .photo {
   width: 280px;
   height: 192px;
+  border-radius: 13px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  background-color: #eee;
+  align-items: center;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .booking-info {
@@ -38,16 +52,16 @@
 }
 
 .edit-icon {
-  height: 17px;
-  width: 17px;
+  width: 44px;
+  height: 44px;
   border-radius: 8px;
   border: solid 1px #c2bcd8;
   padding: 10px;
 }
 
 .delete-icon {
-  height: 17px;
-  width: 17px;
+  width: 44px;
+  height: 44px;
   border-radius: 8px;
   border: solid 1px #f56e6e;
   padding: 10px;
@@ -69,4 +83,6 @@
   padding: 10px;
   background-color: #f5f3fb;
   border-radius: 12px;
+  width: 44px;
+  height: 44px;
 }

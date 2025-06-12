@@ -4,6 +4,7 @@ import { WorkspaceComponent } from './main/workspaces/workspace/workspace.compon
 import { WorkspacesComponent } from './main/workspaces/workspaces.component';
 import { MyBookingsComponent } from './main/my-bookings/my-bookings.component';
 import { AddBookingComponent } from './main/my-bookings/my-booking/add-booking/add-booking.component';
+import { EditBookingComponent } from './main/my-bookings/my-booking/edit-booking/edit-booking.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/workspaces', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
     path: 'my-bookings',
     component: MyBookingsComponent,
   },
+  { path: 'edit-booking/:id', component: EditBookingComponent },
   { path: 'add-booking', component: AddBookingComponent },
 ];
 

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class WorkspaceComponent {
   @Input() workspace!: WorkspaceDto;
+  selectedImageIndex = 0;
 
   constructor(private router: Router) {}
 
@@ -52,6 +53,15 @@ export class WorkspaceComponent {
   }
 
   navigateToAddbooking(): void {
-    this.router.navigate(['/add-booking']);
+    this.router.navigate(['/add-booking'], {
+      state: {
+        workspaceType: this.workspace.workspaceType,
+        rooms: this.workspace.rooms,
+      },
+    });
+  }
+
+  selectImage(index: number): void {
+    this.selectedImageIndex = index;
   }
 }

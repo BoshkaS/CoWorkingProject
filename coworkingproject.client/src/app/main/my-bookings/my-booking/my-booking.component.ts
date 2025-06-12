@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { BookingDto } from '../../../Dto/BookingDto.model';
 import { Router } from '@angular/router';
 
@@ -64,5 +64,9 @@ export class MyBookingComponent {
 
   handleCloseDeleteModal() {
     this.isDeleteModalOpened = false;
+  }
+
+  navigateToEditBooking() {
+    this.router.navigate(['/edit-booking/' + this.booking.id]);
   }
 }
