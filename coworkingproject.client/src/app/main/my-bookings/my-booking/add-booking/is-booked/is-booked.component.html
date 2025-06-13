@@ -1,0 +1,24 @@
+<div class="backdrop" (click)="closeHandler()">
+  <div class="modal" (click)="handleStopPropagation($event)">
+    <div class="modal-header">
+      <mat-icon class="confirm-icon" svgIcon="confirm"></mat-icon>
+      <mat-icon
+        class="close-icon"
+        svgIcon="x"
+        (click)="closeHandler()"
+      ></mat-icon>
+    </div>
+    <span class="text-header">You're all set!</span>
+    <span class="text-descr">
+      Your room for {{ booking.room?.capacityPerPerson }} people is booked from
+      <b
+        >{{ booking.from | date : "MMMM d, y" }} to
+        {{ booking.to | date : "MMMM d, y" }}</b
+      >. A confirmation has been sent to your email
+      <b>{{ booking.user?.email }}</b>
+    </span>
+    <button class="submit-button" (click)="navigateToBooking()">
+      My bookings
+    </button>
+  </div>
+</div>

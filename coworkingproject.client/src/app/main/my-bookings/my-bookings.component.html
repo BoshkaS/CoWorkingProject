@@ -1,0 +1,29 @@
+<ng-container *ngIf="bookings$ | async as bookings; else loading">
+  <ng-container *ngIf="bookings.length > 0; else noBookings">
+    <div class="container-of-bookings">
+      <b class="text-in-bookings">My bookings on Coworking</b>
+      <app-my-booking *ngFor="let booking of bookings" [booking]="booking">
+      </app-my-booking>
+    </div>
+  </ng-container>
+</ng-container>
+<ng-template #loading>
+  <div class="loading-container">
+    <span class="loading-text">Loading your bookings...</span>
+  </div>
+</ng-template>
+<ng-template #noBookings>
+  <div class="no-bookings">
+    <b class="text-in-bookings">My bookings</b>
+    <div class="no-booking-container">
+      <span class="dandruff">🔍</span>
+      <div class="text-container">
+        <span class="main-text">You don’t have any bookings yet</span>
+        <span class="descr-text">Start by choosing a coworking space</span>
+      </div>
+      <button class="select-workspace" (click)="navigateToWorkspaces()">
+        Select a workspace
+      </button>
+    </div>
+  </div>
+</ng-template>

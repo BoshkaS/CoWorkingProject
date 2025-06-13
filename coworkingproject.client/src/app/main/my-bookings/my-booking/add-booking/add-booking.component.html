@@ -1,0 +1,105 @@
+<div class="add-booking-page">
+  <span class="go-back" (click)="goBack()">< Go back</span>
+  <b class="text-in-bookings">Book your workspace</b>
+  <form
+    class="add-booking-container"
+    #postForm="ngForm"
+    (ngSubmit)="onAddBooking(postForm.value)"
+  >
+    <div class="main-data">
+      <div class="reservation-details">
+        <span class="reservation-text">Reservation details</span>
+        <div class="form-body">
+          <label for="name" class="input-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            required
+            ngModel
+            name="name"
+          />
+        </div>
+        <div class="form-body">
+          <label for="email" class="input-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            required
+            ngModel
+            name="email"
+          />
+        </div>
+        <div class="form-body">
+          <label for="workspaceType" class="input-label">Workspace type</label>
+          <input
+            type="text"
+            class="form-control"
+            id="workspaceType"
+            required
+            [(ngModel)]="workspaceType"
+            name="workspaceType"
+            disabled=""
+          />
+        </div>
+        <div class="form-body">
+          <label class="input-label">What room size do you need?</label>
+
+          <!-- Open Space -->
+          <div *ngIf="workspaceType.toLowerCase() === 'open space'">
+            <label for="deskCount">Number of desks:</label>
+            <select
+              id="deskCount"
+              class="form-control"
+              [(ngModel)]="selectedDeskCount"
+              name="deskCount"
+              required
+            >
+              <option *ngFor="let count of getDeskOptions()" [value]="count">
+                {{ count }} desk{{ count > 1 ? "s" : "" }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Room Selection -->
+          <div *ngIf="workspaceType.toLowerCase() !== 'open space'">
+            <div *ngFor="let room of rooms; let i = index">
+              <label>
+                <input
+                  type="radio"
+                  name="selectedRoom"
+                  [value]="room"
+                  [(ngModel)]="selectedRoom"
+                  required
+                />
+                Room for {{ room.capacityPerPerson }} people
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="choose-datetime">
+        <span class="choose-text">Choose date and time</span>
+        <app-custom-date-time-picker></app-custom-date-time-picker>
+        <button
+          class="submit"
+          type="submit"
+          [disabled]="!isFormValid(postForm)"
+          [ngClass]="{ 'disabled-button': !isFormValid(postForm) }"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<app-is-booked
+  *ngIf="isModalBookedOpened"
+  [booking]="bookingDto"
+  (onSearchClose)="handleBookedClose()"
+></app-is-booked>
+<app-is-not-booked
+  *ngIf="isModalNotBookedOpened"
+  (onSearchClose)="handleNotBookedClose()"
+></app-is-not-booked>

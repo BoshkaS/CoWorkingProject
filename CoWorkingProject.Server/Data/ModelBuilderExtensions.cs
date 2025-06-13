@@ -194,18 +194,18 @@ public static class ModelBuilderExtensions
             Id = Guid.NewGuid(),
             UserId = user.Id,
             RoomId = room1.Id,
-            From = DateTime.Today.AddDays(1),
-            To = DateTime.Today.AddDays(1).AddHours(2),
-        };
+			From = new DateTime(2025, 6, 5, 9, 0, 0, DateTimeKind.Utc),
+			To = new DateTime(2025, 6, 5, 11, 0, 0, DateTimeKind.Utc),
+		};
 
         var booking2 = new BookingRoom
         {
             Id = Guid.NewGuid(),
             UserId = user.Id,
             RoomId = room2.Id,
-            From = DateTime.Today.AddDays(2),
-            To = DateTime.Today.AddDays(2).AddHours(1),
-        };
+			From = new DateTime(2025, 7, 5, 9, 0, 0, DateTimeKind.Utc),
+			To = new DateTime(2025, 7, 5, 11, 0, 0, DateTimeKind.Utc),
+		};
 
         modelBuilder.Entity<BookingRoom>().HasData(booking1, booking2);
     }

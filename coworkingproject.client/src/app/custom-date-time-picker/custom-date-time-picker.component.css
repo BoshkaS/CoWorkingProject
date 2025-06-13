@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  gap: 32px;
+  width: 100%;
+}
+
+.label {
+  font-size: 22px;
+  color: #2d2d2d;
+  font-weight: 700;
+  line-height: 100%;
+  margin-bottom: 12px;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dropdown {
+  background-color: white;
+  text-align: left;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #c2bcd8;
+  font-size: 16px;
+  color: #787878;
+  font-weight: 400;
+  line-height: 120%;
+  width: 100%;
+}
+
+.time-block {
+  background-color: #fff;
+}
+
+.dropdown.full {
+  width: 100%;
+}

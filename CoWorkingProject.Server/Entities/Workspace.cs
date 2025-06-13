@@ -17,4 +17,6 @@ public class Workspace
     public List<WorkspaceAmenity> Amenities { get; set; } = new List<WorkspaceAmenity>();
 
     public List<Room> Rooms { get; set; } = new List<Room>();
+
+	public List<WorkspaceImage> Images { get; set; } = new List<WorkspaceImage>();
 }

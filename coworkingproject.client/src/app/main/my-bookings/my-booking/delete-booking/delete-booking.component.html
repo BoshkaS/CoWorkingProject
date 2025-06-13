@@ -1,0 +1,22 @@
+<div class="backdrop" (click)="closeHandler()">
+  <div class="modal" (click)="handleStopPropagation($event)">
+    <div class="modal-header">
+      <mat-icon class="delete-icon" svgIcon="icon-delete"></mat-icon>
+      <mat-icon
+        class="close-icon"
+        svgIcon="x"
+        (click)="closeHandler()"
+      ></mat-icon>
+    </div>
+    <span class="text-header">Cancel your booking?</span>
+    <span class="text-descr">This action cannot be undone.</span>
+    <div class="model-buttons">
+      <button class="submit-button" (click)="deleteBook()">
+        Yes, cancel it
+      </button>
+      <button class="cancel-button" (click)="closeHandler()">
+        No, keep it
+      </button>
+    </div>
+  </div>
+</div>

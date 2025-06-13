@@ -1,0 +1,5 @@
+<div class="container-of-workspaces" *ngIf="workspaces$ | async as workspaces">
+  <b class="text-in-workspaces">Available workspaces</b>
+  <app-workspace *ngFor="let workspace of workspaces" [workspace]="workspace">
+  </app-workspace>
+</div>
