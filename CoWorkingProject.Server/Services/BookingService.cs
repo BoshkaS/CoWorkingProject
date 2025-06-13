@@ -19,11 +19,8 @@ public class BookingService : IBookingService
 		this.httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<BookingDto> AddAsync(BookingPostDto model)
-    {
-        if (model.StartDateTime >= model.EndDateTime)
-            throw new ArgumentException("End date must be after start date.");
-
+	public async Task<BookingDto> AddAsync(BookingPostDto model)
+	{
 		if (model.StartDateTime >= model.EndDateTime)
 			throw new ArgumentException("End date must be after start date.");
 
@@ -39,16 +36,6 @@ public class BookingService : IBookingService
 		if (workspaceType == "meeting room" && duration.TotalDays > 1)
 			throw new ArgumentException("Booking cannot exceed 1 day for Meeting Room.");
 
-		bool overlapExists = await this.workingContext.BookingRooms
-            .AnyAsync(b =>
-                b.From < model.EndDateTime &&
-				b.To > model.StartDateTime
-			);
-
-
-		if (overlapExists)
-			throw new InvalidOperationException("A booking already exists in this time range.");
-
 		var user = await workingContext.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
 		if (user == null)
 			throw new ArgumentException("User with the given email not found.");
@@ -57,25 +44,94 @@ public class BookingService : IBookingService
 		if (parsedType == null)
 			throw new ArgumentException("Invalid workspace type.");
 
-		Room? room = await workingContext.Rooms
+		var candidateRooms = await workingContext.Rooms
 			.Include(r => r.Workspace)
-			.FirstOrDefaultAsync(r =>
+			.Include(r => r.Bookings)
+			.Where(r =>
 				r.Workspace != null &&
 				r.Workspace.Type == parsedType &&
-				r.CapacityPerPerson == model.RoomCapacity);
+				(
+					parsedType == WorkspaceType.OpenSpace ||
+					r.CapacityPerPerson == model.RoomCapacity
+				))
+			.ToListAsync();
 
-		var booking = new BookingRoom
+		Room? availableRoom = null;
+
+		if (parsedType == WorkspaceType.OpenSpace)
 		{
-			Id = Guid.NewGuid(),
-			From = model.StartDateTime,
-			To = model.EndDateTime,
-			UserId = user.Id,
-			RoomId = room?.Id ?? Guid.Empty,
-			User = user,
-			Room = room
+			availableRoom = candidateRooms.FirstOrDefault(r =>
+			{
+				var overlappingBookings = r.Bookings
+					.Where(b => b.To > DateTime.UtcNow &&
+								b.From < model.EndDateTime && b.To > model.StartDateTime)
+					.Count();
+
+				var totalDesks = r.RoomCount ?? 0;
+				return overlappingBookings + model.DeskCount <= totalDesks;
+			});
+		}
+		else
+		{
+			availableRoom = candidateRooms.FirstOrDefault(r =>
+			{
+				var overlappingBookings = r.Bookings
+					.Where(b => b.To > DateTime.UtcNow &&
+								b.From < model.EndDateTime && b.To > model.StartDateTime)
+					.Count();
+
+				var totalRooms = r.RoomCount ?? 1;
+				return overlappingBookings < totalRooms;
+			});
+		}
+
+		if (availableRoom == null)
+			throw new InvalidOperationException("No available rooms in the selected time range.");
+
+		string imagePath = parsedType switch
+		{
+			WorkspaceType.MeetingRoom => "images/mr_1.png",
+			WorkspaceType.OpenSpace => "images/os_1.png",
+			WorkspaceType.PrivateRoom => "images/pr_1.jpg",
+			_ => "images/default.png"
 		};
 
-		workingContext.BookingRooms.Add(booking);
+		var booking = new BookingRoom();
+
+		if (parsedType == WorkspaceType.OpenSpace && model.DeskCount.HasValue)
+		{
+			for (int i = 0; i < model.DeskCount.Value; i++)
+			{
+				booking = new BookingRoom
+				{
+					Id = Guid.NewGuid(),
+					From = model.StartDateTime,
+					To = model.EndDateTime,
+					UserId = user.Id,
+					RoomId = availableRoom.Id,
+					User = user,
+					Room = availableRoom,
+					ImagePath = imagePath,
+				};
+				await workingContext.BookingRooms.AddAsync(booking);
+			}
+		}
+		else
+		{
+			booking = new BookingRoom
+			{
+				Id = Guid.NewGuid(),
+				From = model.StartDateTime,
+				To = model.EndDateTime,
+				UserId = user.Id,
+				RoomId = availableRoom.Id,
+				User = user,
+				Room = availableRoom,
+				ImagePath = imagePath,
+			};
+			await workingContext.BookingRooms.AddAsync(booking);
+		}
+
 		await workingContext.SaveChangesAsync();
 
 		return new BookingDto
@@ -89,14 +145,17 @@ public class BookingService : IBookingService
 				Name = user.Name,
 				Email = user.Email
 			},
-			Room = room != null ? new RoomDto
+			Room = new RoomDto
 			{
-				RoomCount = room.RoomCount,
-				CapacityPerPerson = room.CapacityPerPerson,
-			} : null!
+				RoomCount = availableRoom.RoomCount,
+				CapacityPerPerson = availableRoom.CapacityPerPerson,
+			},
+			ImagePath = imagePath,
 		};
 	}
 
+
+	[HttpDelete("{id}")]
 	public async Task<bool> DeleteAsync(Guid id)
 	{
 		var booking = await workingContext.BookingRooms.FirstOrDefaultAsync(b => b.Id == id);
@@ -121,6 +180,7 @@ public class BookingService : IBookingService
 				.ThenInclude(r => r.Workspace)
 			.Include(br => br.User)
 			.Where(br => br.User!.Id == userId && br.To > DateTime.UtcNow)
+			.OrderBy(br => br.From)
 			.Select(br => new BookingDto
 			{
 				Id = br.Id,

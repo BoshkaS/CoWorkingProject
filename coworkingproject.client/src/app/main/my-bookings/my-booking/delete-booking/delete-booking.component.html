@@ -11,7 +11,9 @@
     <span class="text-header">Cancel your booking?</span>
     <span class="text-descr">This action cannot be undone.</span>
     <div class="model-buttons">
-      <button class="submit-button">Yes, cancel it</button>
+      <button class="submit-button" (click)="deleteBook()">
+        Yes, cancel it
+      </button>
       <button class="cancel-button" (click)="closeHandler()">
         No, keep it
       </button>

@@ -6,6 +6,6 @@ export class DeleteBookingService {
   constructor(private http: HttpClient) {}
 
   deleteBook(bookingId: string) {
-    return this.http.delete('https://localhost:5001/api/booking/' + bookingId);
+    return this.http.delete('https://localhost:7065/api/booking/' + bookingId);
   }
 }

@@ -137,6 +137,7 @@ export class EditBookingComponent implements OnInit {
       next: (res) => {
         console.log('Booking updated successfully:', res);
         alert('Booking updated successfully!');
+        this.goBack();
       },
       error: (err) => {
         console.error('Update failed:', err.message);
