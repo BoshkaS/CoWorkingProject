@@ -99,6 +99,7 @@ public static class ModelBuilderExtensions
         {
             Id = Guid.NewGuid(),
             WorkspaceId = workspaceOpen.Id,
+            RoomCount = 20,
             CapacityPerPerson = 20,
         };
 
@@ -208,5 +209,84 @@ public static class ModelBuilderExtensions
 		};
 
         modelBuilder.Entity<BookingRoom>().HasData(booking1, booking2);
-    }
+
+		//Seed WorkspaceImages
+		var image1 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/mr_3.png",
+			WorkspaceId = workspaceMeeting.Id,
+		};
+		var image2 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/pr_1.png",
+			WorkspaceId = workspacePrivate.Id,
+		};
+		var image3 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/os_4.png",
+			WorkspaceId = workspaceOpen.Id,
+		};
+		var image4 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/os_1.png",
+			WorkspaceId = workspaceOpen.Id,
+		};
+		var image5 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/pr_3.png",
+			WorkspaceId = workspacePrivate.Id,
+		};
+		var image6 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/pr_2.png",
+			WorkspaceId = workspacePrivate.Id,
+		};
+		var image7 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/pr_4.png",
+			WorkspaceId = workspacePrivate.Id,
+		};
+		var image8 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/os_3.png",
+			WorkspaceId = workspaceOpen.Id,
+		};
+		var image9 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/mr_2.png",
+			WorkspaceId = workspaceMeeting.Id,
+		};
+		var image10 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/mr_1.jpg",
+			WorkspaceId = workspaceMeeting.Id,
+		};
+		var image11 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/os_2.png",
+			WorkspaceId = workspaceOpen.Id,
+		};
+		var image12 = new WorkspaceImage
+		{
+			Id = Guid.NewGuid(),
+			ImagePath = "images/mr_4.png",
+			WorkspaceId = workspaceMeeting.Id,
+		};
+
+		modelBuilder.Entity<WorkspaceImage>().HasData(
+			image1, image2, image3, image4, image5, image6,
+			image7, image8, image9, image10, image11, image12
+		);
+	}
 }
