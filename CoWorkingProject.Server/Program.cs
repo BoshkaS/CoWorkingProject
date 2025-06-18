@@ -3,6 +3,7 @@
 // </copyright>
 
 using CoWorkingProject.Server.Data;
+using CoWorkingProject.Server.DTOs;
 using CoWorkingProject.Server.Services;
 using CoWorkingProject.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<ICoworkingService, CoworkingService>();
+
+builder.Services.Configure<GroqSettings>(builder.Configuration.GetSection("Groq"));
+builder.Services.AddHttpClient<GroqService>();
 
 builder.Services.AddControllers()
 	.AddJsonOptions(options =>

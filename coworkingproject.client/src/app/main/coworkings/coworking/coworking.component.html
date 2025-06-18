@@ -1,0 +1,34 @@
+<div class="coworking-container">
+  <div class="photo">
+    <img
+      *ngIf="coworking.imagePath"
+      [src]="coworking.imagePath"
+      alt="Coworking Image"
+    />
+  </div>
+  <div class="coworking-info">
+    <div class="type-and-button">
+      <div class="main-info">
+        <span class="coworking-name">{{ coworking.name }}</span>
+        <span class="coworking-descr">{{ coworking.description }}</span>
+      </div>
+      <button class="submit" (click)="navigateToWorkspaces()">
+        View details
+      </button>
+    </div>
+    <div class="additional-info">
+      <div class="info">
+        <mat-icon class="my-icon" svgIcon="map-marker"></mat-icon>
+        <span class="info-text">{{ coworking.address }}</span>
+      </div>
+      <div class="info">
+        <mat-icon class="my-icon" svgIcon="armchair"></mat-icon>
+        <span class="info-text"
+          >🪑 {{ coworking.deskCount }} desks · 🔒
+          {{ coworking.privateRoomCount }} rooms · 👥
+          {{ coworking.meetingRoomCount }} rooms</span
+        >
+      </div>
+    </div>
+  </div>
+</div>

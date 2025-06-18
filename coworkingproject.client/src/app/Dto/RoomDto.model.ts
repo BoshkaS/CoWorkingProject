@@ -1,4 +1,4 @@
 export interface RoomDto {
-  roomCount?: number;
+  roomCount: number;
   capacityPerPerson: number;
 }

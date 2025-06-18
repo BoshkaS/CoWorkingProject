@@ -9,4 +9,6 @@ export interface BookingDto {
   to: string;
   workspaceType: string;
   imagePath?: string;
+  coworkingName: string;
+  workspaceId: string;
 }

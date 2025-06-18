@@ -102,5 +102,15 @@ export class IconService {
         'assets/icons/deny-booking.svg'
       )
     );
+    this.iconRegistry.addSvgIcon(
+      'send',
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/send.svg')
+    );
+    this.iconRegistry.addSvgIcon(
+      'map-marker',
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/map-marker.svg'
+      )
+    );
   }
 }

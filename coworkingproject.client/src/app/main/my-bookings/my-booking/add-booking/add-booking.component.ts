@@ -16,6 +16,7 @@ import { BookingDto } from '../../../../Dto/BookingDto.model';
 export class AddBookingComponent implements OnInit {
   workspaceType: string = '';
   rooms: RoomDto[] = [];
+  workspaceId: string = '';
 
   selectedRoom: RoomDto | null = null;
   selectedDeskCount: number | null = null;
@@ -38,12 +39,13 @@ export class AddBookingComponent implements OnInit {
     const state = history.state as {
       workspaceType: string;
       rooms: RoomDto[];
+      workspaceId: string;
     };
 
     if (state && state.workspaceType && state.rooms) {
       this.workspaceType = state.workspaceType;
       this.rooms = state.rooms;
-      console.log('workspace', this.workspaceType);
+      this.workspaceId = state.workspaceId;
     } else {
       console.log('No state received.');
     }
@@ -54,8 +56,7 @@ export class AddBookingComponent implements OnInit {
   }
 
   getDeskOptions(): number[] {
-    const maxCapacity =
-      this.rooms.length > 0 ? this.rooms[0].capacityPerPerson : 10;
+    const maxCapacity = this.rooms.length > 0 ? this.rooms[0].roomCount : 10;
     return Array.from({ length: maxCapacity }, (_, i) => i + 1);
   }
 
@@ -86,8 +87,8 @@ export class AddBookingComponent implements OnInit {
 
     const now = new Date();
 
-    if (end <= start) return false; // End must be after start
-    if (start < now) return false; // Can't start in the past
+    if (end <= start) return false;
+    if (start < now) return false;
 
     const durationMs = end.getTime() - start.getTime();
     const durationDays = durationMs / (1000 * 60 * 60 * 24);
@@ -149,6 +150,7 @@ export class AddBookingComponent implements OnInit {
           : undefined,
       startDateTime: start,
       endDateTime: end,
+      workspaceId: this.workspaceId,
     };
 
     console.log('Booking DTO:', booking);

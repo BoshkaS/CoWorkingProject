@@ -19,9 +19,9 @@ export class MyBookingsService {
     );
   }
 
-  getRoomsByType(workspaceType: string): Observable<RoomDto[]> {
+  getRoomsByType(workspaceId: string): Observable<RoomDto[]> {
     return this.http.get<RoomDto[]>(
-      `https://localhost:7065/api/workspace/by-type/${workspaceType}`
+      `https://localhost:7065/api/workspace/get-rooms/${workspaceId}`
     );
   }
 
@@ -37,6 +37,14 @@ export class MyBookingsService {
         headers: { 'Content-Type': 'application/json' },
       })
       .pipe(catchError(this.handleError));
+  }
+
+  askAssistant(question: string): Observable<any> {
+    return this.http.post(
+      'https://localhost:7065/api/booking/ask',
+      JSON.stringify(question),
+      { headers: { 'Content-Type': 'application/json' } }
+    );
   }
 
   private handleError(error: HttpErrorResponse) {

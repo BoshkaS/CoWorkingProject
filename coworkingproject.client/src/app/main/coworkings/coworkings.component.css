@@ -1,0 +1,113 @@
+.container-of-coworkings {
+  padding-inline: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.text-main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 20px;
+}
+
+.text-in-coworkings {
+  font-size: 40px;
+  margin: 0;
+  font-weight: 700;
+  color: #2d2d2d;
+  line-height: 120%;
+  padding: 40px 0 0px 0;
+}
+
+.descr-in-coworkings {
+  font-size: 18px;
+  font-weight: 400;
+  color: #6b6b6b;
+  line-height: 120%;
+}
+
+.no-coworkings {
+  padding-inline: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.no-coworkings-container {
+  width: 100%;
+  padding: 16px;
+  gap: 32px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 426px;
+}
+
+.dandruff {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.main-text {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.descr-text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #6b6b6b;
+}
+
+/* .select-workspace {
+  border: none;
+  width: 200px;
+  height: 48px;
+  padding-inline: 24px;
+  background-color: #5c5af3;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+} */
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  text-align: center;
+}
+
+.loading-text {
+  font-size: 30px;
+  color: #555;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}

@@ -15,17 +15,17 @@ public class WorkspaceController : ControllerBase
 		this.workspaceService = workspaceService;
 	}
 
-	[HttpGet]
-	public async Task<IActionResult> GetWorkspaces()
+	[HttpGet("{coworkingId}")]
+	public async Task<IActionResult> GetWorkspaces(Guid coworkingId)
 	{
-		var result = await this.workspaceService.GetAllAsync();
-		return Ok(result);
+		var result = await this.workspaceService.GetAllAsync(coworkingId);
+		return this.Ok(result);
 	}
 
-	[HttpGet("by-type/{workspaceType}")]
-	public async Task<IActionResult> GetRoomsByType(string workspaceType)
+	[HttpGet("get-rooms/{id}")]
+	public async Task<IActionResult> GetRoomsByType(Guid id)
 	{
-		var rooms =  await workspaceService.GetRoomsByWorkspaceType(workspaceType);
-		return Ok(rooms);
+		var rooms = await this.workspaceService.GetRoomsByWorkspaceType(id);
+		return this.Ok(rooms);
 	}
 }

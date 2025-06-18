@@ -5,10 +5,12 @@ import { WorkspacesComponent } from './main/workspaces/workspaces.component';
 import { MyBookingsComponent } from './main/my-bookings/my-bookings.component';
 import { AddBookingComponent } from './main/my-bookings/my-booking/add-booking/add-booking.component';
 import { EditBookingComponent } from './main/my-bookings/my-booking/edit-booking/edit-booking.component';
+import { CoworkingsComponent } from './main/coworkings/coworkings.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/workspaces', pathMatch: 'full' },
-  { path: 'workspaces', component: WorkspacesComponent },
+  { path: '', redirectTo: '/coworkings', pathMatch: 'full' },
+  { path: 'coworkings', component: CoworkingsComponent },
+  { path: 'workspaces/:coworkingId', component: WorkspacesComponent },
   { path: 'workspace/:id', component: WorkspaceComponent },
   {
     path: 'my-bookings',

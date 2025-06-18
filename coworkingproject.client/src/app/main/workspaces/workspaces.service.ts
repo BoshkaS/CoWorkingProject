@@ -6,9 +6,9 @@ import { WorkspaceDto } from '../../Dto/WorkspaceDto.model';
 export class WorkspaceService {
   constructor(private http: HttpClient) {}
 
-  getWorkspaces() {
+  getWorkspaces(coworkingId: string) {
     return this.http.get<WorkspaceDto[]>(
-      'https://localhost:7065/api/workspace'
+      'https://localhost:7065/api/workspace/' + coworkingId
     );
   }
 }

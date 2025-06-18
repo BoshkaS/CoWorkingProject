@@ -1,9 +1,52 @@
 <ng-container *ngIf="bookings$ | async as bookings; else loading">
   <ng-container *ngIf="bookings.length > 0; else noBookings">
     <div class="container-of-bookings">
-      <b class="text-in-bookings">My bookings on Coworking</b>
+      <b class="text-in-bookings">My bookings</b>
       <app-my-booking *ngFor="let booking of bookings" [booking]="booking">
       </app-my-booking>
+    </div>
+    <div class="ai-assistant">
+      <b class="text-in-bookings">AI assistant</b>
+      <div class="assistant-response" *ngIf="assistantResponse">
+        <span class="user-question">{{ userQuestion }}</span>
+        <span class="response">{{ assistantResponse }}</span>
+      </div>
+      <div class="example-questions">
+        <span class="text-example-questions">Example questions</span>
+        <div class="questions">
+          <button
+            class="question"
+            (click)="onQuestionClick('How many bookings do I have?')"
+          >
+            How many bookings do I have?
+          </button>
+          <button
+            class="question"
+            (click)="onQuestionClick('What do I have booked for next week?')"
+          >
+            What do I have booked for next week?
+          </button>
+          <button
+            class="question"
+            (click)="onQuestionClick('Do I have anything on May 12?')"
+          >
+            Do I have anything on May 12?
+          </button>
+        </div>
+      </div>
+      <div class="input-wrapper">
+        <input
+          class="ask"
+          [(ngModel)]="userQuestion"
+          (keydown.enter)="onSubmit()"
+          placeholder="Ask anything..."
+        />
+        <mat-icon
+          class="send-icon"
+          svgIcon="send"
+          (click)="onSubmit()"
+        ></mat-icon>
+      </div>
     </div>
   </ng-container>
 </ng-container>
@@ -22,7 +65,7 @@
         <span class="descr-text">Start by choosing a coworking space</span>
       </div>
       <button class="select-workspace" (click)="navigateToWorkspaces()">
-        Select a workspace
+        Select a coworking
       </button>
     </div>
   </div>

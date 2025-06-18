@@ -30,10 +30,10 @@ public class BookingService : IBookingService
 		var duration = model.EndDateTime - model.StartDateTime;
 		var workspaceType = model.WorkspaceType.ToLower();
 
-		if ((workspaceType == "open space" || workspaceType == "private room") && duration.TotalDays > 30)
+		if ((workspaceType == "open space" || workspaceType == "private rooms") && duration.TotalDays > 30)
 			throw new ArgumentException("Booking cannot exceed 30 days for Open Space or Private Room.");
-
-		if (workspaceType == "meeting room" && duration.TotalDays > 1)
+		
+		if (workspaceType == "meeting rooms" && duration.TotalDays > 1)
 			throw new ArgumentException("Booking cannot exceed 1 day for Meeting Room.");
 
 		var user = await workingContext.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
@@ -49,11 +49,7 @@ public class BookingService : IBookingService
 			.Include(r => r.Bookings)
 			.Where(r =>
 				r.Workspace != null &&
-				r.Workspace.Type == parsedType &&
-				(
-					parsedType == WorkspaceType.OpenSpace ||
-					r.CapacityPerPerson == model.RoomCapacity
-				))
+				r.WorkspaceId == model.WorkspaceId)
 			.ToListAsync();
 
 		Room? availableRoom = null;
@@ -92,7 +88,7 @@ public class BookingService : IBookingService
 		{
 			WorkspaceType.MeetingRoom => "images/mr_1.png",
 			WorkspaceType.OpenSpace => "images/os_1.png",
-			WorkspaceType.PrivateRoom => "images/pr_1.jpg",
+			WorkspaceType.PrivateRoom => "images/pr_1.png",
 			_ => "images/default.png"
 		};
 
@@ -173,11 +169,12 @@ public class BookingService : IBookingService
 
 	public async Task<IEnumerable<BookingDto>> GetAllAsync()
 	{
-		Guid userId = new Guid("9d2d16fc-6ce4-47b9-860a-7b5d11db13b0"); // ToDo: if adding authentification.
+		Guid userId = new Guid("8bb9d372-e3f9-433a-bd76-74f8f4887756"); // ToDo: if adding authentification.
 
 		return await this.workingContext.BookingRooms
 			.Include(br => br.Room)
-				.ThenInclude(r => r.Workspace)
+				.ThenInclude(r => r!.Workspace)
+					.ThenInclude(w => w!.Coworking)
 			.Include(br => br.User)
 			.Where(br => br.User!.Id == userId && br.To > DateTime.UtcNow)
 			.OrderBy(br => br.From)
@@ -197,13 +194,15 @@ public class BookingService : IBookingService
 				},
 				From = br.From,
 				To = br.To,
-				ImagePath = $"{httpContextAccessor.HttpContext!.Request.Scheme}://{httpContextAccessor.HttpContext.Request.Host}/{br.ImagePath}"
+				ImagePath = $"{this.httpContextAccessor.HttpContext!.Request.Scheme}://{this.httpContextAccessor.HttpContext.Request.Host}/{br.ImagePath}",
+				CoworkingName = br.Room.Workspace.Coworking.Name,
+				WorkspaceId = br.Room.WorkspaceId,
 			}).ToListAsync();
 	}
 	
 	public async Task<BookingDto> GetById(Guid id)
 	{
-		Guid userId = new Guid("9d2d16fc-6ce4-47b9-860a-7b5d11db13b0");
+		Guid userId = new Guid("8bb9d372-e3f9-433a-bd76-74f8f4887756");
 
 		return await this.workingContext.BookingRooms
 			.Include(br => br.Room)
@@ -225,7 +224,9 @@ public class BookingService : IBookingService
 					CapacityPerPerson = br.Room.CapacityPerPerson,
 				},
 				From = br.From,
-				To = br.To
+				To = br.To,
+				CoworkingName = br.Room.Workspace.Coworking.Name,
+				WorkspaceId = br.Room.WorkspaceId,
 			}).FirstOrDefaultAsync();
 	}
 
@@ -249,45 +250,64 @@ public class BookingService : IBookingService
 		var existingBooking = await workingContext.BookingRooms
 			.Include(b => b.User)
 			.Include(b => b.Room)
-			.ThenInclude(r => r.Workspace)
+				.ThenInclude(r => r!.Workspace)
 			.FirstOrDefaultAsync(b => b.Id == id);
 
 		if (existingBooking == null)
 			throw new KeyNotFoundException("Booking not found.");
 
-		bool overlapExists = await workingContext.BookingRooms
-			.AnyAsync(b =>
-				b.Id != id &&
-				b.From < model.EndDateTime &&
-				b.To > model.StartDateTime
-			);
-
-		if (overlapExists)
-			throw new InvalidOperationException("A booking already exists in this time range.");
-
-		var user = await workingContext.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+		var user = await this.workingContext.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
 		if (user == null)
 			throw new ArgumentException("User with the given email not found.");
 
-		var parsedType = EnumService.GetEnumFromEnumMemberValue<WorkspaceType>(model.WorkspaceType.ToLower());
+		var parsedType = EnumService.GetEnumFromEnumMemberValue<WorkspaceType>(workspaceType);
 		if (parsedType == null)
 			throw new ArgumentException("Invalid workspace type.");
 
-		Room? room = await workingContext.Rooms
-			.Include(r => r.Workspace)
-			.FirstOrDefaultAsync(r =>
-				r.Workspace != null &&
-				r.Workspace.Type == parsedType &&
-				r.CapacityPerPerson == model.RoomCapacity);
+		var workspace = await workingContext.Workspaces
+			.Include(w => w.Rooms)
+				.ThenInclude(r => r.Bookings)
+			.FirstOrDefaultAsync(w => w.Id == model.WorkspaceId);
+
+		if (workspace == null || workspace.Type != parsedType)
+			throw new ArgumentException("Workspace not found or type mismatch.");
+
+		Room? availableRoom = null;
+
+		if (parsedType == WorkspaceType.OpenSpace)
+		{
+			availableRoom = workspace.Rooms.FirstOrDefault(r =>
+			{
+				var overlapping = r.Bookings
+					.Where(b => b.Id != id &&
+								b.From < model.EndDateTime &&
+								b.To > model.StartDateTime)
+					.Count();
+
+				var totalDesks = r.RoomCount ?? 0;
+				return overlapping + (model.DeskCount ?? 0) <= totalDesks;
+			});
+		}
+		else
+		{
+			availableRoom = workspace.Rooms.FirstOrDefault(r =>
+				r.CapacityPerPerson == model.RoomCapacity &&
+				!r.Bookings.Any(b =>
+					b.Id != id &&
+					b.From < model.EndDateTime &&
+					b.To > model.StartDateTime)
+			);
+		}
+
+		if (availableRoom == null)
+			throw new InvalidOperationException("No available rooms in the selected time range.");
 
 		existingBooking.From = model.StartDateTime;
 		existingBooking.To = model.EndDateTime;
 		existingBooking.UserId = user.Id;
-		existingBooking.User.Name = model.Name;
-		existingBooking.User.Email = model.Email;
-		existingBooking.RoomId = room?.Id ?? Guid.Empty;
-		existingBooking.Room.CapacityPerPerson = model.RoomCapacity;
-
+		existingBooking.User = user;
+		existingBooking.RoomId = availableRoom.Id;
+		existingBooking.Room = availableRoom;
 
 		await workingContext.SaveChangesAsync();
 
@@ -302,11 +322,12 @@ public class BookingService : IBookingService
 				Name = user.Name,
 				Email = user.Email
 			},
-			Room = room != null ? new RoomDto
+			Room = new RoomDto
 			{
-				RoomCount = room.RoomCount,
-				CapacityPerPerson = room.CapacityPerPerson,
-			} : null!
+				RoomCount = availableRoom.RoomCount,
+				CapacityPerPerson = availableRoom.CapacityPerPerson
+			},
+			ImagePath = existingBooking.ImagePath,
 		};
 	}
 }

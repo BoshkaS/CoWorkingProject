@@ -12,6 +12,9 @@ public class BookingPostDto
 	public string Email { get; set; } = null!;
 
 	[Required]
+	public Guid WorkspaceId { get; set; }
+
+	[Required]
 	public string WorkspaceType { get; set; } = null!;
 
 	public int? DeskCount { get; set; }

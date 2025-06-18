@@ -5,7 +5,7 @@ namespace CoWorkingProject.Server.Services.Interfaces;
 
 public interface IWorkspaceService
 {
-	Task<IEnumerable<WorkspaceDto>> GetAllAsync();
+	Task<IEnumerable<WorkspaceDto>> GetAllAsync(Guid coworkingId);
 
-	Task<IEnumerable<RoomDto>> GetRoomsByWorkspaceType(string workspaceType);
+	Task<IEnumerable<RoomDto>> GetRoomsByWorkspaceType(Guid id);
 }

@@ -11,10 +11,12 @@ using Microsoft.AspNetCore.Mvc;
 public class BookingController : ControllerBase
 {
 	private readonly IBookingService bookingService;
+	private readonly GroqService groqService;
 
-	public BookingController(IBookingService bookingService) 
+	public BookingController(IBookingService bookingService, GroqService groqService) 
 	{
 		this.bookingService = bookingService;
+		this.groqService = groqService;
 	}
 
 	[HttpGet]
@@ -61,6 +63,14 @@ public class BookingController : ControllerBase
 		{
 			return StatusCode(500, new { message = "Unexpected error", detail = ex.Message });
 		}
+	}
+
+	[HttpPost("ask")]
+	public async Task<IActionResult> Ask([FromBody] string question)
+	{
+		var answer = await this.groqService.AskAssistant(question);
+
+		return this.Ok(new { answer });
 	}
 
 	[HttpPatch("{id}")]

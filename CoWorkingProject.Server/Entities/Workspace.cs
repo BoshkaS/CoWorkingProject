@@ -14,7 +14,11 @@ public class Workspace
 
     public string Description { get; set; } = string.Empty;
 
-    public List<WorkspaceAmenity> Amenities { get; set; } = new List<WorkspaceAmenity>();
+	public Guid CoworkingId { get; set; }
+
+	public Coworking Coworking { get; set; }
+
+	public List<WorkspaceAmenity> Amenities { get; set; } = new List<WorkspaceAmenity>();
 
     public List<Room> Rooms { get; set; } = new List<Room>();
 

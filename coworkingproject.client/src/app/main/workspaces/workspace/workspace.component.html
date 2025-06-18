@@ -66,5 +66,9 @@
         </span>
       </p>
     </div>
+    <div class="booking" *ngIf="this.workspace.capacity">
+      This workspace is already booked by you! Room for
+      {{ this.workspace.capacity }}
+    </div>
   </div>
 </div>
