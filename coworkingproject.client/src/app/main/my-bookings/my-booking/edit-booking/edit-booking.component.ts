@@ -48,7 +48,7 @@ export class EditBookingComponent implements OnInit {
           this.workspaceType = booking.workspaceType;
 
           this.bookingService
-            .getRoomsByType(this.workspaceType)
+            .getRoomsByType(this.booking.workspaceId)
             .subscribe((rooms) => {
               this.rooms = rooms;
 
@@ -129,6 +129,7 @@ export class EditBookingComponent implements OnInit {
           : undefined,
       startDateTime: start,
       endDateTime: end,
+      workspaceId: this.booking.workspaceId,
     };
 
     console.log('Patch booking DTO:', updatedBooking);

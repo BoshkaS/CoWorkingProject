@@ -1,0 +1,108 @@
+.coworking-container {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 20px;
+  padding: 16px;
+  gap: 32px;
+  align-items: center;
+}
+
+.photo {
+  width: 280px;
+  height: 192px;
+  border-radius: 13px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  background-color: #eee;
+  align-items: center;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.booking-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+}
+
+.coworking-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.type-and-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 12px 0 12px 0;
+}
+
+.main-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.coworking-name {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2d2d2d;
+  line-height: 120%;
+}
+
+.coworking-descr {
+  font-size: 16px;
+  font-weight: 400;
+  color: #6b6b6b;
+  line-height: 24px;
+}
+
+.additional-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+
+.my-icon {
+  padding: 10px;
+  background-color: #f5f3fb;
+  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+}
+
+.info-text {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 500;
+  color: #2d2d2d;
+  line-height: 120%;
+}
+
+.submit {
+  border-radius: 8px;
+  padding-inline: 24px;
+  background-color: #5c5af3;
+  height: 48px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  width: auto;
+}

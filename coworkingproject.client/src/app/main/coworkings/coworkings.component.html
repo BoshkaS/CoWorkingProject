@@ -1,0 +1,44 @@
+<ng-container *ngIf="coworkings$ | async as coworkings; else loading">
+  <ng-container *ngIf="coworkings.length > 0; else noCoworking">
+    <div class="container-of-coworkings">
+      <div class="text-main-container">
+        <b class="text-in-coworkings">Available coworking spaces</b>
+        <span class="descr-in-coworkings"
+          >Browse and choose a workspace that fits your needs</span
+        >
+      </div>
+      <app-coworking
+        *ngFor="let coworking of coworkings"
+        [coworking]="coworking"
+      >
+      </app-coworking>
+    </div>
+  </ng-container>
+</ng-container>
+<ng-template #loading>
+  <div class="loading-container">
+    <span class="loading-text">Loading your coworkings...</span>
+  </div>
+</ng-template>
+<ng-template #noCoworking>
+  <div class="no-coworkings">
+    <b class="text-in-coworkings">Available coworking spaces</b>
+    <span class="descr-in-coworkings"
+      >Browse and choose a workspace that fits your needs</span
+    >
+    <div class="no-coworkings-container">
+      <span class="dandruff">👨‍💻</span>
+      <div class="text-container">
+        <span class="main-text"
+          >No coworking spaces available at the moment</span
+        >
+        <span class="descr-text"
+          >Please check back later or try adjusting your filters</span
+        >
+      </div>
+      <button class="select-workspace" (click)="reloadPage()">
+        Select a workspace
+      </button>
+    </div>
+  </div>
+</ng-template>

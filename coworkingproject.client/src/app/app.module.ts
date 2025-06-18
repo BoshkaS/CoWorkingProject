@@ -22,6 +22,9 @@ import { CustomDateTimePickerComponent } from './custom-date-time-picker/custom-
 import { EditBookingComponent } from './main/my-bookings/my-booking/edit-booking/edit-booking.component';
 import { IsBookedComponent } from './main/my-bookings/my-booking/add-booking/is-booked/is-booked.component';
 import { IsNotBookedComponent } from './main/my-bookings/my-booking/add-booking/is-not-booked/is-not-booked.component';
+import { CoworkingsComponent } from './main/coworkings/coworkings.component';
+import { CoworkingsService } from './main/coworkings/coworkings.service';
+import { CoworkingComponent } from './main/coworkings/coworking/coworking.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,8 @@ import { IsNotBookedComponent } from './main/my-bookings/my-booking/add-booking/
     EditBookingComponent,
     IsBookedComponent,
     IsNotBookedComponent,
+    CoworkingsComponent,
+    CoworkingComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +55,7 @@ import { IsNotBookedComponent } from './main/my-bookings/my-booking/add-booking/
     IconService,
     MyBookingsService,
     DeleteBookingService,
+    CoworkingsService,
     provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],

@@ -31,9 +31,17 @@ export class WorkspaceComponent {
   getCapacityPerPersonList(rooms: RoomDto[]): number[] {
     if (!rooms?.length) return [];
 
-    const capacities = rooms.map((room) => room.capacityPerPerson);
+    let capacities: (number | undefined)[];
 
-    return Array.from(new Set(capacities)).sort((a, b) => a - b);
+    if (this.workspace.workspaceType === 'Open space') {
+      capacities = rooms.map((room) => room.roomCount);
+    } else {
+      capacities = rooms.map((room) => room.capacityPerPerson);
+    }
+
+    return Array.from(new Set(capacities))
+      .filter((x) => x !== undefined)
+      .sort((a, b) => a! - b!) as number[];
   }
 
   get capacityPerPersonText(): string {
@@ -57,6 +65,7 @@ export class WorkspaceComponent {
       state: {
         workspaceType: this.workspace.workspaceType,
         rooms: this.workspace.rooms,
+        workspaceId: this.workspace.workspaceId,
       },
     });
   }

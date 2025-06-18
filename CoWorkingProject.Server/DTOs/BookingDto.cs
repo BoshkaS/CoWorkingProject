@@ -8,6 +8,10 @@ public class BookingDto
 
 	public string WorkspaceType { get; set; }
 
+	public string CoworkingName { get; set; }
+
+	public Guid WorkspaceId { get; set; }
+
 	public UserDto User { get; set; }
 
 	public RoomDto Room { get; set; }

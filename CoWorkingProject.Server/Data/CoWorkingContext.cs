@@ -31,6 +31,8 @@ public class CoWorkingContext : DbContext
 
     public DbSet<WorkspaceImage> WorkspaceImages { get; set; }
 
+    public DbSet<Coworking> Coworkings { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         var annotationCollection = new List<IEntityAnnotation>
@@ -42,6 +44,7 @@ public class CoWorkingContext : DbContext
             new WorkspaceAmenityAnnotation(modelBuilder),
             new WorkspaceAnnotation(modelBuilder),
             new WorkspaceImageAnnotation(modelBuilder),
+            new CoworkingAnnotation(modelBuilder),
         };
         foreach (var annotation in annotationCollection)
         {

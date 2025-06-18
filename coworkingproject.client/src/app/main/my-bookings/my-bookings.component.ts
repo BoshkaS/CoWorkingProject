@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { BookingDto } from '../../Dto/BookingDto.model';
 import { MyBookingsService } from './my-bookings.service';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 })
 export class MyBookingsComponent {
   bookings$!: Observable<BookingDto[]>;
+  userQuestion: string = '';
+  assistantResponse: string = '';
 
   constructor(
     private bookingService: MyBookingsService,
@@ -22,7 +24,32 @@ export class MyBookingsComponent {
     console.log(this.bookings$);
   }
 
+  onQuestionClick(question: string) {
+    this.userQuestion = question;
+    this.onSubmit();
+  }
+
+  onSubmit() {
+    const trimmed = this.userQuestion.trim();
+    if (!trimmed) return;
+
+    this.bookingService
+      .askAssistant(trimmed)
+      .pipe(
+        catchError((err) => {
+          console.error('Assistant error:', err);
+          this.assistantResponse = 'Sorry, something went wrong.';
+          return of(null);
+        })
+      )
+      .subscribe((response) => {
+        if (response) {
+          this.assistantResponse = response.answer || 'No answer returned.';
+        }
+      });
+  }
+
   navigateToWorkspaces() {
-    this.router.navigate(['/workspaces']);
+    this.router.navigate(['/coworkings']);
   }
 }
