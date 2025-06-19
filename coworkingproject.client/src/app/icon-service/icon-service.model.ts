@@ -112,5 +112,9 @@ export class IconService {
         'assets/icons/map-marker.svg'
       )
     );
+    this.iconRegistry.addSvgIcon(
+      'check',
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/check.svg')
+    );
   }
 }
