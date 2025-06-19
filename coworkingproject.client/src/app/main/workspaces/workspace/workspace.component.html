@@ -67,8 +67,15 @@
       </p>
     </div>
     <div class="booking" *ngIf="this.workspace.capacity">
-      This workspace is already booked by you! Room for
-      {{ this.workspace.capacity }}
+      <mat-icon svgIcon="check"></mat-icon>
+      <span
+        >This workspace is already booked by you! Room for
+        {{ this.workspace.capacity }} people
+        <b
+          >{{ this.workspace.from | date : "MMMM d, y" }} to
+          {{ this.workspace.to | date : "MMMM d, y" }}</b
+        >
+      </span>
     </div>
   </div>
 </div>
